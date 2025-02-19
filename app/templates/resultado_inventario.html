@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado - Inventario</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <h2>Resultado del Cálculo</h2>
+        
+        {% if 'eoq' in resultado %}
+            <p><b>Cantidad Óptima de Pedido (EOQ):</b> {{ resultado['eoq'] }}</p>
+        
+        {% elif 'rop' in resultado %}
+            <p><b>Punto de Reorden (ROP):</b> {{ resultado['rop'] }}</p>
+        
+        {% elif 'stock_seguridad' in resultado %}
+            <p><b>Stock de Seguridad:</b> {{ resultado['stock_seguridad'] }}</p>
+        
+        {% elif 'costo_total' in resultado %}
+            <p><b>Costo Total de Inventario:</b> {{ resultado['costo_total'] }}</p>
+        
+        {% elif 'poq' in resultado %}
+            <p><b>Cantidad Óptima de Producción (POQ):</b> {{ resultado['poq'] }}</p>
+        
+        {% elif 'error' in resultado %}
+            <p class="text-danger"><b>Error:</b> {{ resultado['error'] }}</p>
+        
+        {% endif %}
+        
+        <h3 class="mt-4">Visualización del Inventario</h3>
+        <img src="{{ url_for('static', filename='graphs/inventario.png') }}?t={{ now }}" alt="Inventario" class="img-fluid mt-3" style="max-width: 50%;">
+
+        <div class="mt-4">
+            <a href="/inventario" class="btn btn-primary">Volver</a>
+        </div>
+    </div>
+</body>
+</html>
