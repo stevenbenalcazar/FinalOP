@@ -2,4 +2,3 @@ envO/
 .env
 __pycache__/
 .venv
-static/graphs/
