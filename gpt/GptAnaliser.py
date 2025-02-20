@@ -5,12 +5,7 @@ import os
 class GptAnaliser:
     @staticmethod
     def interpretar_sensibilidad(resultados):
-        """
-        Obeten, analiza e interpreta los resultados de sensibilidad.
-
-        :param resultados: Diccionario con los resultados del problema resuelto.
-        :return: Interpretación detallada del análisis de sensibilidad en formato legible.
-        """
+        
         # Configurar la clave de API de OpenAI
         openai.api_key = os.getenv('OPENAI_API_KEY')
         
@@ -19,8 +14,8 @@ class GptAnaliser:
             f"Se presenta un problema de programación lineal resuelto. Analiza los resultados obtenidos en {resultados['Función']} "
             f"Además, realiza un análisis de sensibilidad"
             "Genera un análisis de sensibilidad en formato Markdown. "
-            "Usa formato Markdown con títulos (`###`), listas (`-`), y negritas (`**`), pero **no uses LaTeX ni signos de dólar (`$`).**"
-            "Explica todo de manera clara y en lenguaje natural."
+            "Usa formato Markdown con títulos (`###`), listas (`-`), y negritas (`**`), pero **no uses LaTeX ni signos como este de dinero (`$`).**"
+            "Por favor explica todo de manera clara y en lenguaje natural."
             
             "### Análisis de Sensibilidad ###\n"
             "1. **Impacto de Cambios en los Coeficientes:**\n"
