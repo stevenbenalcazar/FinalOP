@@ -99,11 +99,22 @@ def transportation():
             vogel_allocation = vogel_approximation_method(supply, demand, cost_matrix.tolist())
             vogel_cost = np.sum(vogel_allocation * cost_matrix)
             simplex_allocation, simplex_cost = solve_transportation_problem(supply, demand, cost_matrix.tolist())
+            
+            resultados = {
+                'initial_matrix': cost_matrix.tolist(),
+                'vogel': {'allocation': vogel_allocation.tolist(), 'cost': vogel_cost},
+                'simplex': {'allocation': simplex_allocation, 'cost': simplex_cost}
+            }
+
+            # 🔹 Analizar los resultados con GPT
+            analisi = GptAnaliser.interpretar_transporte(resultados)
+            analisis_html = Markup(markdown.markdown(analisi))  # Convertir a HTML para mostrar en frontend
 
             return jsonify({
                 'initial_matrix': cost_matrix.tolist(),
                 'vogel': {'allocation': vogel_allocation.tolist(), 'cost': vogel_cost},
-                'simplex': {'allocation': simplex_allocation, 'cost': simplex_cost}
+                'simplex': {'allocation': simplex_allocation, 'cost': simplex_cost},
+                'analisis': analisis_html
             })
         except Exception as e:
             return jsonify({'error': str(e)})
