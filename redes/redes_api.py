@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 from redes.network_solver import max_flow
 from datetime import datetime
-from gpt.GptAnaliser import GptAnaliser  # ✅ Importamos la IA
+from gpt.ModuloGpt import ModuloGpt  # ✅ Importamos la IA
 from markupsafe import Markup
 import markdown
 
@@ -74,7 +74,7 @@ def redes():
         generar_grafico(G, resultado, operation)
         
         
-        analisis_ia = GptAnaliser.interpretar_redes(resultado)  # ✅ Generar análisis con OpenAI
+        analisis_ia = ModuloGpt.interpretar_redes(resultado)  # ✅ Generar análisis con OpenAI
         analisis_html = Markup(markdown.markdown(analisis_ia))  # ✅ Convertir a HTML para la interfaz
         return render_template("resultado_redes.html", resultado=resultado, analisis=analisis_html, now=datetime.now())
     

@@ -2,9 +2,9 @@ from flask import Flask, jsonify, render_template, request, send_from_directory
 import numpy as np
 from markupsafe import Markup
 import markdown
-from gpt.GptAnaliser import GptAnaliser
+from gpt.ModuloGpt import ModuloGpt
 from transporte.TransporteSolver import solve_transportation_problem, vogel_approximation_method
-from lineal.LinearProgrammingSolver import LinearProgrammingSolver  # ✅ Importación correcta
+from lineal.ResuelvePLineal import ResuelvePLineal  # ✅ Importación correcta
 from redes.redes_api import redes_bp  # ✅ Importar API de redes
 from inventario.inventario_api import inventario_bp  # ✅ Importar API de Inventario
 import os
@@ -39,7 +39,7 @@ def index():
 def objetivo():
     return render_template('objetivo.html')
 
-@app.route('/linear', methods=['GET', 'POST'])
+@app.route('/plineal', methods=['GET', 'POST'])
 def linear():
     resultado = None
     if request.method == 'POST':
@@ -55,18 +55,18 @@ def linear():
             return "Faltan datos en el formulario.", 400
 
         # ✅ Pasamos el método como keyword argument
-        resultado = LinearProgrammingSolver.resolver_problema(
+        resultado = ResuelvePLineal.resolver_problema(
             funcion_objetivo, objetivo, restricciones, metodo=metodo
         )
 
         # ✅ Análisis con GPT y conversión a HTML
-        analisi = GptAnaliser.interpretar_sensibilidad(resultado)
+        analisi = ModuloGpt.interpretar_sensibilidad(resultado)
         analisis_html = Markup(markdown.markdown(analisi))
 
         if resultado:
             return render_template('resultado.html', resultado=resultado, analisi=analisis_html)
 
-    return render_template('linear-programming.html')
+    return render_template('progra_lineal.html')
 
 
 @app.route('/transportation', methods=['GET', 'POST'])
@@ -101,7 +101,7 @@ def transportation():
             }
 
             # ✅ Análisis con GPT en transporte
-            analisi = GptAnaliser.interpretar_transporte(resultados)
+            analisi = ModuloGpt.interpretar_transporte(resultados)
             analisis_html = Markup(markdown.markdown(analisi))  # ✅ Convertir a HTML
 
             return jsonify({

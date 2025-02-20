@@ -1,7 +1,7 @@
 import pulp
 import re
 
-class LinearProgrammingSolver:
+class ResuelvePLineal:
     @staticmethod
     def resolver_problema(funcion_objetivo, objetivo, restricciones, metodo="simplex"):
         """
@@ -121,10 +121,10 @@ if __name__ == "_main_":
     restricciones = ["2*x + y <= 5", "x + 2*y >= 6", "x + y = 3"]
 
     print("\n🔹 Método Simplex")
-    print(LinearProgrammingSolver.resolver_problema(funcion_objetivo, objetivo, restricciones, metodo="simplex"))
+    print(ResuelvePLineal.resolver_problema(funcion_objetivo, objetivo, restricciones, metodo="simplex"))
 
     print("\n🔹 Método Gran M")
-    print(LinearProgrammingSolver.resolver_problema(funcion_objetivo, objetivo, restricciones, metodo="gran_m"))
+    print(ResuelvePLineal.resolver_problema(funcion_objetivo, objetivo, restricciones, metodo="gran_m"))
 
     print("\n🔹 Método Dos Fases")
-    print(LinearProgrammingSolver.resolver_problema(funcion_objetivo, objetivo, restricciones, metodo="dos_fases"))
+    print(ResuelvePLineal.resolver_problema(funcion_objetivo, objetivo, restricciones, metodo="dos_fases"))

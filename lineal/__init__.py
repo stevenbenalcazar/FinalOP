@@ -1,8 +1,8 @@
 import pulp
 import re
-from gpt import GptAnaliser
+from gpt import ModuloGpt
 
-class LinearProgrammingSolver:
+class ResuelvePLineal:
     @staticmethod
     def resolver_problema(funcion_objetivo, objetivo, restricciones):
         """
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     ]
 
     # Resolver el problema
-    resultado = LinearProgrammingSolver.resolver_problema(funcion_objetivo, objetivo, restricciones)
+    resultado = ResuelvePLineal.resolver_problema(funcion_objetivo, objetivo, restricciones)
 
     # Imprimir resultados
     print("Resultados del Problema de Programación Lineal:")
