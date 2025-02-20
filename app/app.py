@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, render_template, request, send_from_directory
 import numpy as np
+from markupsafe import Markup 
+import markdown
 from gpt.GptAnaliser import GptAnaliser
 from transporte.TransporteSolver import solve_transportation_problem, vogel_approximation_method
 from lineal import LinearProgrammingSolver
@@ -46,7 +48,7 @@ def linear():
         objetivo = request.form.get('objetivo')
         restricciones_raw = request.form.get('restriccion')
 
-
+        # procesar y limpiar el campo de restricciones que el usuario ingresa en el formulario.
         restricciones = [r.strip() for r in restricciones_raw.split('\n') if r.strip()]
 
 
@@ -60,9 +62,13 @@ def linear():
 
         resultado = LinearProgrammingSolver.resolver_problema(funcion_objetivo, objetivo, restricciones)
         analisi = GptAnaliser.interpretar_sensibilidad(resultado)
-
+        
+        # 🔹 **Aquí aplicamos la conversión a HTML**
+        analisis_html = Markup(markdown.markdown(analisi))
+        
+        
         if resultado:
-            return render_template('resultado.html', resultado=resultado, analisi=analisi)
+            return render_template('resultado.html', resultado=resultado, analisi=analisis_html)
 
 
 
