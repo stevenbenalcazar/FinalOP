@@ -2,7 +2,7 @@ import openai
 from dotenv import load_dotenv
 import os
 
-class GptAnaliser:
+class ModuloGpt:
     
     # ✅ PLANTEAMIENTO DEL PROBLEMA (Se agregará en cada prompt)
     PLANTEAMIENTO_PROBLEMA = """
@@ -19,7 +19,7 @@ class GptAnaliser:
         openai.api_key = os.getenv('OPENAI_API_KEY')
 
         prompt = (
-            f"{GptAnaliser.PLANTEAMIENTO_PROBLEMA}\n\n"
+            f"{ModuloGpt.PLANTEAMIENTO_PROBLEMA}\n\n"
             "### Análisis de Programación Lineal ###\n"
             "Se ha resuelto un problema de optimización de producción en Exi'Models.\n"
             f"- **Función Objetivo:** {resultados['Función']}\n"
@@ -58,7 +58,7 @@ class GptAnaliser:
         openai.api_key = os.getenv('OPENAI_API_KEY')
 
         prompt = (
-            f"{GptAnaliser.PLANTEAMIENTO_PROBLEMA}\n\n"
+            f"{ModuloGpt.PLANTEAMIENTO_PROBLEMA}\n\n"
             "### Análisis del Problema de Transporte ###\n"
             "Se ha resuelto un problema de distribución de productos en Exi'Models.\n"
             f"- **Matriz de costos inicial:**\n{resultados['initial_matrix']}\n\n"
@@ -98,7 +98,7 @@ class GptAnaliser:
         openai.api_key = os.getenv('OPENAI_API_KEY')
 
         prompt = (
-            f"{GptAnaliser.PLANTEAMIENTO_PROBLEMA}\n\n"
+            f"{ModuloGpt.PLANTEAMIENTO_PROBLEMA}\n\n"
             "### Análisis de Redes ###\n"
             "Se ha calculado una solución de optimización de rutas en Exi'Models.\n"
         )

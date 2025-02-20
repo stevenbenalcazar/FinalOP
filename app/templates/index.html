@@ -3,81 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calculadora Programación Lineal, Transporte y Redes</title>
+    <title>CalculaBien</title>
     <link
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
     <style>
-      /* Paleta de colores profesional y moderna */
       :root {
-        --primary: #2c3e50; /* Azul oscuro profesional */
-        --secondary: #f5f6fa; /* Gris claro elegante */
-        --accent: #3498db; /* Azul vibrante */
-        --dark: #1a1f2c; /* Negro azulado */
-        --text: #ecf0f1; /* Blanco suave */
-        --hover: #2980b9; /* Azul hover */
+        --primary: #1b1f3b;
+        --secondary: #ededed;
+        --accent: #ffd700;
+        --dark: #0f172a;
+        --text: #ffffff;
+        --hover: #0077b6;
       }
 
+      /* Fondo principal con sombras suaves */
       .bg-primary-custom {
         background-color: var(--primary);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
       }
 
+      /* Fondo secundario con bordes sutiles */
       .bg-secondary-custom {
         background-color: var(--secondary);
         border-radius: 8px;
+        padding: 20px;
         transition: all 0.3s ease;
       }
 
       .bg-secondary-custom:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
       }
 
+      /* Texto profesional con peso adecuado */
       .text-custom {
         color: var(--text);
-        font-weight: 500;
+        font-weight: 600;
       }
 
-      .bg-dark-custom {
-        background-color: var(--dark);
-        color: var(--text);
-        border-radius: 4px;
-      }
-
-      .hero-section {
-        padding: 40px 0;
-        background: linear-gradient(
-          135deg,
-          var(--primary) 0%,
-          var(--dark) 100%
-        );
-        color: var(--text);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .hero-section::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(
-          circle at 50% 50%,
-          rgba(52, 152, 219, 0.1) 0%,
-          transparent 50%
-        );
-      }
-
-      .section-title {
-        margin-bottom: 40px;
-        color: var(--primary);
-        position: relative;
-        padding-bottom: 10px;
-      }
+      /* ✅ Eliminamos la línea azul debajo del título */
 
       .section-title::after {
         content: "";
@@ -85,18 +51,28 @@
         bottom: 0;
         left: 50%;
         transform: translateX(-50%);
-        width: 60px;
-        height: 3px;
+        width: 70px;
+        height: 4px;
         background-color: var(--accent);
         border-radius: 3px;
       }
 
-      .objective-text,
-      .about-us-text {
-        font-size: 1.2em;
-        margin-bottom: 30px;
-        line-height: 1.6;
-        color: var(--primary);
+      .btn-secondary-custom:hover::after {
+        transform: scaleX(1);
+      }
+
+      .btn-secondary-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+      }
+
+      /* 🎯 Sección de botones con buen espaciado */
+      .button-row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 30px 0;
       }
 
       .team-list {
@@ -107,13 +83,12 @@
         justify-content: center;
         gap: 20px;
       }
-
       .team-list li {
         display: inline-block;
         padding: 10px 20px;
         color: var(--primary);
         font-weight: 500;
-        background-color: var(--secondary);
+        background: linear-gradient(90deg, var(--hover));
         border-radius: 25px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         transition: all 0.3s ease;
@@ -124,59 +99,80 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
 
+      /* Texto alineado correctamente */
+      .about-us-text {
+        font-size: 1.2em;
+        margin-bottom: 30px;
+        line-height: 1.6;
+        color: var(--primary);
+      }
+      .display-4 {
+        font-size: 2.5rem; /* Tamaño similar a section-title */
+        font-weight: bold; /* Hace las letras gruesas */
+        position: relative;
+        padding-bottom: 10px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .display-4::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        border-radius: 3px;
+      }
+      .button-row {
+        display: flex; /* Alinea los botones en una fila */
+        justify-content: center; /* Centra los botones horizontalmente */
+        flex-wrap: wrap; /* Permite que los botones se ajusten en pantallas pequeñas */
+        gap: 40px; /* Aumenta la separación entre los botones */
+        padding: 30px 0; /* Espaciado superior e inferior */
+      }
+
       .btn-secondary-custom {
-        background-color: var(--accent);
+        background: linear-gradient(135deg, var(--accent), var(--hover));
         border: none;
-        color: var(--text);
+        color: var(--dark);
         padding: 15px 30px;
         font-size: 1.1em;
-        border-radius: 30px;
-        transition: all 0.3s ease;
+        font-weight: bold;
+        border-radius: 50px;
+        transition: all 0.3s ease-in-out;
         position: relative;
         overflow: hidden;
         z-index: 1;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        min-width: 260px; /* ✅ Ajusta el ancho mínimo de los botones */
+        text-align: center;
       }
 
       .btn-secondary-custom::after {
         content: "";
         position: absolute;
-        bottom: 0;
+        top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: var(--hover);
+        background: linear-gradient(135deg, var(--hover), var(--accent));
         transform: scaleX(0);
-        transform-origin: right;
-        transition: transform 0.3s ease;
+        transform-origin: left;
+        transition: transform 0.4s ease-in-out;
+        border-radius: 50px;
         z-index: -1;
       }
 
       .btn-secondary-custom:hover::after {
         transform: scaleX(1);
-        transform-origin: left;
       }
 
       .btn-secondary-custom:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(41, 128, 185, 0.3);
-      }
-
-      .footer-text {
-        color: var(--text);
-        font-size: 1.1em;
-      }
-
-      .button-row {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 20px;
-        padding: 20px 0;
-      }
-
-      .button-row a {
-        margin: 0;
-        position: relative;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
       }
     </style>
   </head>
@@ -184,68 +180,59 @@
     <header class="hero-section text-center">
       <div class="container">
         <h1 class="display-4">
-          Bienvenido a la Calculadora de Programación Lineal, Transporte y Redes
+          Calculadora de Programación Lineal, Transporte, Redes e Inventario,
+          implementando IA para analisis de resultados
         </h1>
-        <p class="lead">
-          Soluciones eficientes para tus problemas de programación lineal y
-          transporte.
-        </p>
       </div>
     </header>
 
     <section class="py-5">
       <div class="container text-center">
-        <h2 class="section-title">Objetivo del Programa</h2>
-        <p class="objective-text">
-          Nuestra calculadora tiene como objetivo proporcionar herramientas
-          eficientes para resolver problemas de programación lineal, transporte
-          y redes. ¡ Accede a la claculadora que necesites !
-        </p>
+        <h2 class="section-title">Seleccione una calculadora</h2>
+        <img
+          src="{{ url_for('static', filename='images/bot.avif') }}"
+          alt="Imagen de calculadora"
+          class="img-fluid mb-4"
+          style="max-width: 300px; margin-bottom: 20px"
+        />
         <div class="button-row">
-          <a href="/linear" class="btn btn-secondary-custom mx-2"
-            >Calculadora de<br />Programación Lineal</a
-          >
-          <a href="/transportation" class="btn btn-secondary-custom mx-2"
-            >Calculadora de<br />Transporte</a
-          >
-          <a href="/redesb" class="btn btn-secondary-custom mx-2"
-            >Calculadora de<br />redes</a
-          >
-          <a href="/inventario" class="btn btn-secondary-custom mx-2">
-            Calculadora de<br />Inventario</a
-          >
+          <a href="/plineal" class="btn btn-secondary-custom">
+            Calculadora de<br />Programación Lineal
+          </a>
+          <a href="/transportation" class="btn btn-secondary-custom">
+            Calculadora de<br />Transporte
+          </a>
+          <a href="/redesb" class="btn btn-secondary-custom">
+            Calculadora de<br />Redes
+          </a>
+          <a href="/inventario" class="btn btn-secondary-custom">
+            Calculadora de<br />Inventario
+          </a>
         </div>
       </div>
     </section>
 
     <section class="bg-secondary-custom py-5">
       <div class="container text-center">
-        <h2 class="section-title">Sobre Nosotros</h2>
-        <p class="about-us-text">Integrantes del equipo:</p>
+        <h2 class="section-title">Integrantes Grupo de Trabajo</h2>
         <ul class="team-list">
           <li>Nicolas Liberio</li>
           <li>Steven Benalcazar</li>
           <li>Esteban Sillo</li>
           <li>Shander Sandoval</li>
         </ul>
-        <p class="about-us-text">
-          Herramienta especializada para la resolución de problemas de
-          programación lineal, transporte y redes.
-        </p>
       </div>
     </section>
 
     <footer class="bg-dark-custom py-3">
       <div class="container text-center">
         <p class="footer-text">
-          &copy; 2025 Calculadora de Programación Lineal y Transporte. Todos los
-          derechos reservados.
+          Materia de Investigacion operativa 8vo semestre
         </p>
       </div>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
 </html>
