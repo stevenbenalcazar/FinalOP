@@ -51,11 +51,6 @@ def linear():
         # ✅ Procesar y limpiar restricciones
         restricciones = [r.strip() for r in restricciones_raw.split('\n') if r.strip()]
 
-        print(f"Función Objetivo: {funcion_objetivo}")
-        print(f"Objetivo: {objetivo}")
-        print(f"Restricciones: {restricciones}")
-        print(f"Método seleccionado: {metodo}")  # ✅ Mostrar método en consola
-
         if not funcion_objetivo or not objetivo or not restricciones:
             return "Faltan datos en el formulario.", 400
 
