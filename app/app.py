@@ -1,10 +1,10 @@
 from flask import Flask, jsonify, render_template, request, send_from_directory
 import numpy as np
-from markupsafe import Markup 
+from markupsafe import Markup
 import markdown
 from gpt.GptAnaliser import GptAnaliser
 from transporte.TransporteSolver import solve_transportation_problem, vogel_approximation_method
-from lineal import LinearProgrammingSolver
+from lineal.LinearProgrammingSolver import LinearProgrammingSolver  # ✅ Importación correcta
 from redes.redes_api import redes_bp  # ✅ Importar API de redes
 from inventario.inventario_api import inventario_bp  # ✅ Importar API de Inventario
 import os
@@ -43,34 +43,33 @@ def objetivo():
 def linear():
     resultado = None
     if request.method == 'POST':
-     
         funcion_objetivo = request.form.get('funcion_objetivo')
         objetivo = request.form.get('objetivo')
         restricciones_raw = request.form.get('restriccion')
+        metodo = request.form.get('metodo', 'simplex')  # ✅ Método por defecto es Simplex
 
-        # procesar y limpiar el campo de restricciones que el usuario ingresa en el formulario.
+        # ✅ Procesar y limpiar restricciones
         restricciones = [r.strip() for r in restricciones_raw.split('\n') if r.strip()]
-
 
         print(f"Función Objetivo: {funcion_objetivo}")
         print(f"Objetivo: {objetivo}")
         print(f"Restricciones: {restricciones}")
+        print(f"Método seleccionado: {metodo}")  # ✅ Mostrar método en consola
 
         if not funcion_objetivo or not objetivo or not restricciones:
             return "Faltan datos en el formulario.", 400
 
+        # ✅ Pasamos el método como keyword argument
+        resultado = LinearProgrammingSolver.resolver_problema(
+            funcion_objetivo, objetivo, restricciones, metodo=metodo
+        )
 
-        resultado = LinearProgrammingSolver.resolver_problema(funcion_objetivo, objetivo, restricciones)
+        # ✅ Análisis con GPT y conversión a HTML
         analisi = GptAnaliser.interpretar_sensibilidad(resultado)
-        
-        # 🔹 **Aquí aplicamos la conversión a HTML**
         analisis_html = Markup(markdown.markdown(analisi))
-        
-        
+
         if resultado:
             return render_template('resultado.html', resultado=resultado, analisi=analisis_html)
-
-
 
     return render_template('linear-programming.html')
 
@@ -87,7 +86,7 @@ def transportation():
             cost = [[int(data[f'cost{i}{j}']) for j in range(num_destinations)] for i in range(num_sources)]
             cost_matrix = np.array(cost, dtype=float)
 
-
+            # ✅ Balanceo de oferta y demanda
             if sum(supply) != sum(demand):
                 if sum(supply) > sum(demand):
                     demand.append(sum(supply) - sum(demand))
@@ -99,16 +98,16 @@ def transportation():
             vogel_allocation = vogel_approximation_method(supply, demand, cost_matrix.tolist())
             vogel_cost = np.sum(vogel_allocation * cost_matrix)
             simplex_allocation, simplex_cost = solve_transportation_problem(supply, demand, cost_matrix.tolist())
-            
+
             resultados = {
                 'initial_matrix': cost_matrix.tolist(),
                 'vogel': {'allocation': vogel_allocation.tolist(), 'cost': vogel_cost},
                 'simplex': {'allocation': simplex_allocation, 'cost': simplex_cost}
             }
 
-            # 🔹 Analizar los resultados con GPT
+            # ✅ Análisis con GPT en transporte
             analisi = GptAnaliser.interpretar_transporte(resultados)
-            analisis_html = Markup(markdown.markdown(analisi))  # Convertir a HTML para mostrar en frontend
+            analisis_html = Markup(markdown.markdown(analisi))  # ✅ Convertir a HTML
 
             return jsonify({
                 'initial_matrix': cost_matrix.tolist(),
