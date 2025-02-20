@@ -96,3 +96,60 @@ class GptAnaliser:
 
         return response.choices[0]['message']['content'].strip()
 
+    @staticmethod
+    def interpretar_redes(resultados):
+        """
+        Analiza e interpreta los resultados del problema de redes.
+        """
+        openai.api_key = os.getenv('OPENAI_API_KEY')
+
+        # Construir el prompt dinámico dependiendo del tipo de operación realizada
+        if "flow_value" in resultados:
+            prompt = (
+                "Se ha resuelto un problema de flujo máximo en una red.\n\n"
+                f"- **Valor del flujo máximo:** {resultados['flow_value']}\n"
+                f"- **Detalle del flujo:** {resultados['flow_dict']}\n\n"
+                "### Análisis del Flujo Máximo ###\n"
+                "- ¿Cuáles son los cuellos de botella en la red?\n"
+                "- ¿Cómo se podría mejorar la capacidad de flujo?\n"
+                "- ¿Existe algún camino que no se está utilizando de manera eficiente?\n\n"
+                "### Conclusión ###\n"
+                "Proporciona un análisis detallado de los resultados obtenidos y posibles mejoras."
+            )
+        elif "path" in resultados:
+            prompt = (
+                "Se ha calculado la ruta más corta entre dos nodos en una red.\n\n"
+                f"- **Ruta encontrada:** {resultados['path']}\n"
+                f"- **Longitud total:** {resultados['length']}\n\n"
+                "### Análisis de la Ruta Mínima ###\n"
+                "- ¿Existen otras rutas con un costo similar?\n"
+                "- ¿Cómo se podría mejorar la conectividad en la red?\n"
+                "- ¿La ruta mínima encontrada es eficiente en términos de balance de carga?\n\n"
+                "### Conclusión ###\n"
+                "Explica si la solución es óptima y cómo se podría optimizar aún más."
+            )
+        elif "mst_edges" in resultados:
+            prompt = (
+                "Se ha calculado el Árbol de Expansión Mínima (MST) de una red.\n\n"
+                f"- **Aristas del MST:** {resultados['mst_edges']}\n\n"
+                "### Análisis del Árbol de Expansión Mínima ###\n"
+                "- ¿El MST encontrado minimiza el costo total de conexión?\n"
+                "- ¿Existen otras formas de estructurar la red con menor costo?\n"
+                "- ¿Es posible eliminar nodos sin afectar la conectividad?\n\n"
+                "### Conclusión ###\n"
+                "Analiza si el MST es óptimo y si hay estrategias para reducir aún más los costos."
+            )
+        else:
+            prompt = "No se pudo generar un análisis debido a un error en los datos."
+
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system",
+                 "content": "Eres un experto en optimización de redes y teoría de grafos."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=450
+        )
+
+        return response.choices[0]['message']['content'].strip()

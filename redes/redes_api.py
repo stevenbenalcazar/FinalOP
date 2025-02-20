@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import os
 from redes.network_solver import max_flow
 from datetime import datetime
+from gpt.GptAnaliser import GptAnaliser  # ✅ Importamos la IA
+from markupsafe import Markup
+import markdown
 
 redes_bp = Blueprint('redes', __name__)
 
@@ -69,6 +72,10 @@ def redes():
             return "Operación no válida", 400
         
         generar_grafico(G, resultado, operation)
-        return render_template("resultado_redes.html", resultado=resultado, now=datetime.now())
+        
+        
+        analisis_ia = GptAnaliser.interpretar_redes(resultado)  # ✅ Generar análisis con OpenAI
+        analisis_html = Markup(markdown.markdown(analisis_ia))  # ✅ Convertir a HTML para la interfaz
+        return render_template("resultado_redes.html", resultado=resultado, analisis=analisis_html, now=datetime.now())
     
     return render_template('redes.html')
