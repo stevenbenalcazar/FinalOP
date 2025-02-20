@@ -4,7 +4,7 @@ from markupsafe import Markup
 import markdown
 from gpt.GptAnaliser import GptAnaliser
 from transporte.TransporteSolver import solve_transportation_problem, vogel_approximation_method
-from lineal import LinearProgrammingSolver
+from lineal.LinearProgrammingSolver import LinearProgrammingSolver
 from redes.redes_api import redes_bp  # ✅ Importar API de redes
 from inventario.inventario_api import inventario_bp  # ✅ Importar API de Inventario
 import os
@@ -43,35 +43,38 @@ def objetivo():
 def linear():
     resultado = None
     if request.method == 'POST':
-     
+
         funcion_objetivo = request.form.get('funcion_objetivo')
         objetivo = request.form.get('objetivo')
         restricciones_raw = request.form.get('restriccion')
+        metodo = request.form.get('metodo', 'simplex')  # ✅ Obtener método (por defecto Simplex)
 
-        # procesar y limpiar el campo de restricciones que el usuario ingresa en el formulario.
         restricciones = [r.strip() for r in restricciones_raw.split('\n') if r.strip()]
-
 
         print(f"Función Objetivo: {funcion_objetivo}")
         print(f"Objetivo: {objetivo}")
         print(f"Restricciones: {restricciones}")
+        print(f"Método seleccionado: {metodo}")  # ✅ Mostrar método en consola para debug
+        print("Resultado devuelto por resolver_problema():", resultado)
+
 
         if not funcion_objetivo or not objetivo or not restricciones:
             return "Faltan datos en el formulario.", 400
 
+        # ✅ Corrección: pasamos el método como keyword argument
+        resultado = LinearProgrammingSolver.resolver_problema(
+            funcion_objetivo, objetivo, restricciones, metodo=metodo
+        )
 
-        resultado = LinearProgrammingSolver.resolver_problema(funcion_objetivo, objetivo, restricciones)
+
+
         analisi = GptAnaliser.interpretar_sensibilidad(resultado)
-        
-        # 🔹 **Aquí aplicamos la conversión a HTML**
+
         analisis_html = Markup(markdown.markdown(analisi))
-        
-        
+         
         if resultado:
             return render_template('resultado.html', resultado=resultado, analisi=analisis_html)
-
-
-
+ 
     return render_template('linear-programming.html')
 
 

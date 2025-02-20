@@ -1,80 +1,107 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Resultados de Programación Lineal</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/resultados.css') }}"
-    />
-  </head>
-  <body>
-    <div class="container">
-      <h1>Resultados del Problema de Programación Lineal</h1>
-      <div class="resultado">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados - Programación Lineal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/resultados.css') }}">
+</head>
+<body>
+
+<div class="contenedor">
+    <h1 class="titulo">Resultados del Problema de Programación Lineal</h1>
+
+    <div class="seccion">
+        <h2>Método de Resolución</h2>
+        <p class="resaltado">{{ resultado['Metodo'] }}</p>
+    </div>
+
+    <div class="seccion">
         <h2>Función Objetivo</h2>
         <p>{{ resultado['Función'] }}</p>
+    </div>
 
+    <div class="seccion">
         <h2>Tipo de Objetivo</h2>
         <p>{{ resultado['Objetivo'] }}</p>
+    </div>
 
+    <div class="seccion">
         <h2>Valor de la Función Objetivo</h2>
-        <p>{{ resultado['Valor_Objetivo'] }}</p>
+        <p class="resaltado">{{ resultado['Valor_Objetivo'] }}</p>
+    </div>
 
-        <h2>Variables y Valores</h2>
-        <ul>
-          {% for var, val in resultado['Variables'].items() %}
-          <li>{{ var }} = {{ val }}</li>
-          {% endfor %}
+    <div class="seccion">
+        <h2>Variables y Valores Óptimos</h2>
+        <ul class="lista">
+            {% for var, val in resultado['Variables'].items() %}
+            <li><strong>{{ var }}</strong> = {{ val }}</li>
+            {% endfor %}
         </ul>
+    </div>
 
+    <div class="seccion">
         <h2>Restricciones</h2>
-        <ul>
-          {% for restriccion in resultado['Restricciones'] %}
-          <li>{{ restriccion }}</li>
-          {% endfor %}
+        <ul class="lista">
+            {% for restriccion in resultado['Restricciones'] %}
+            <li>{{ restriccion }}</li>
+            {% endfor %}
         </ul>
+    </div>
 
-        {% if resultado['Holguras'] %}
+    {% if resultado['Holguras'] %}
+    <div class="seccion">
         <h2>Holguras</h2>
-        <ul>
-          {% for holgura, val in resultado['Holguras'].items() %}
-          <li>{{ holgura }} = {{ val }}</li>
-          {% endfor %}
+        <ul class="lista">
+            {% for holgura, val in resultado['Holguras'].items() %}
+            <li><strong>{{ holgura }}</strong> = {{ val }}</li>
+            {% endfor %}
         </ul>
-        {% endif %} {% if resultado['Artificios'] %}
-        <h2>Variables de Artificio</h2>
-        <ul>
-          {% for artificio, val in resultado['Artificios'].items() %}
-          <li>{{ artificio }} = {{ val }}</li>
-          {% endfor %}
-        </ul>
-        {% endif %} {% if resultado['Costo_Reducido'] %}
-        <h2>Costo Reducido</h2>
-        <ul>
-          {% for var, val in resultado['Costo_Reducido'].items() %}
-          <li>{{ var }} = {{ val }}</li>
-          {% endfor %}
-        </ul>
-        {% endif %} {% if resultado['Precios_Duales'] %}
-        <h2>Precios Dual</h2>
-        <ul>
-          {% for restriccion, val in resultado['Precios_Duales'].items() %}
-          <li>{{ restriccion }} = {{ val }}</li>
-          {% endfor %}
-        </ul>
-        {% endif %}
-      </div>
+    </div>
+    {% endif %}
 
-      <div class="analisis">
+    {% if resultado['Artificios'] %}
+    <div class="seccion">
+        <h2>Variables de Artificio</h2>
+        <ul class="lista">
+            {% for artificio, val in resultado['Artificios'].items() %}
+            <li><strong>{{ artificio }}</strong> = {{ val }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if resultado['Costo_Reducido'] %}
+    <div class="seccion">
+        <h2>Costo Reducido</h2>
+        <ul class="lista">
+            {% for var, val in resultado['Costo_Reducido'].items() %}
+            <li><strong>{{ var }}</strong> = {{ val }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if resultado['Precios_Duales'] %}
+    <div class="seccion">
+        <h2>Precios Dual</h2>
+        <ul class="lista">
+            {% for restriccion, val in resultado['Precios_Duales'].items() %}
+            <li><strong>{{ restriccion }}</strong> = {{ val }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="seccion analisis">
         <h2>Análisis de Sensibilidad</h2>
         <div class="analisis-texto">{{ analisi | safe }}</div>
-      </div>
-
-      <div id="volver">
-        <a href="/">Volver al inicio</a>
-      </div>
     </div>
-  </body>
+
+    <div class="volver">
+        <a href="/">Volver al inicio</a>
+    </div>
+</div>
+
+</body>
 </html>

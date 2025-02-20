@@ -4,28 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Formulario de Programación Lineal</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/linear.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/linear.css') }}" />
   </head>
   <body>
     <h1>Formulario de Programación Lineal</h1>
     <form action="/linear" method="post">
+      <label for="metodo">Seleccione el método:</label>
+      <select id="metodo" name="metodo" required>
+        <option value="simplex">Simplex</option>
+        <option value="gran_m">Gran M</option>
+        <option value="dos_fases">Dos Fases</option>
+      </select><br /><br />
+
       <label for="funcion_objetivo">Función Objetivo:</label>
       <input
         type="text"
         id="funcion_objetivo"
         name="funcion_objetivo"
-        placeholder="e.g., 3*x + 4*y"
+        placeholder="Ej: 3*x + 4*y"
         required
       /><br /><br />
 
       <label for="objetivo">Objetivo:</label>
       <select id="objetivo" name="objetivo" required>
         <option value="Maximizar">Maximizar</option>
-        <option value="Minimizar">Minimizar</option></select
-      ><br /><br />
+        <option value="Minimizar">Minimizar</option>
+      </select><br /><br />
 
       <label for="restricciones">Restricciones:</label><br />
       <textarea
@@ -33,10 +37,9 @@
         name="restriccion"
         rows="5"
         cols="50"
-        placeholder="Ingrese una restricción por línea, e.g., 2*x + y <= 5"
+        placeholder="Ej: 2*x + y <= 5"
         required
-      ></textarea
-      ><br /><br />
+      ></textarea><br /><br />
 
       <input type="submit" value="Resolver" />
     </form>
